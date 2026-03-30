@@ -6,6 +6,7 @@ import readline  # pyright: ignore[reportUnusedImport] # noqa: F401
 import sys
 
 from src.validator import validator
+from src.identifier import identifier
 
 
 def main() -> None:
@@ -22,7 +23,7 @@ def main() -> None:
                 break
 
             print("User input:", user_input)
-            validator(user_input)
+            identifier(user_input)
 
         except ValueError:
             print("Invalid input. Please enter a numerical value.")
