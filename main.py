@@ -5,7 +5,6 @@ Predict module for the application.
 import readline  # pyright: ignore[reportUnusedImport] # noqa: F401
 import sys
 
-from src.validator import validator
 from src.identifier import identifier
 
 
