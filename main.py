@@ -5,7 +5,7 @@ Predict module for the application.
 import readline  # pyright: ignore[reportUnusedImport] # noqa: F401
 import sys
 
-from src.identifier import identifier
+from src.tokenizer import tokenizer
 
 
 def main() -> None:
@@ -21,8 +21,9 @@ def main() -> None:
                 print("Goodbye!")
                 break
 
-            print("User input:", user_input)
-            identifier(user_input)
+            tokenizer(user_input)
+            for token in user_input:
+                print(f"{token}")
 
         except ValueError:
             print("Invalid input. Please enter a numerical value.")
