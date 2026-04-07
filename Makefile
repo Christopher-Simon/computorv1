@@ -30,6 +30,10 @@ clean:
 fclean: clean
 	@echo "Removing model weights..."
 
+test: setup
+	@echo "Running tests..."
+	@$(VENV_DIR)/bin/pytest tests/ -v
+
 re: fclean all
 
-.PHONY: all setup  clean fclean re
+.PHONY: all setup clean fclean re test

@@ -5,6 +5,7 @@ Predict module for the application.
 import readline  # pyright: ignore[reportUnusedImport] # noqa: F401
 import sys
 
+from src.lexer import lexer
 from src.tokenizer import tokenizer
 
 
@@ -21,9 +22,9 @@ def main() -> None:
                 print("Goodbye!")
                 break
 
-            tokenizer(user_input)
-            for token in user_input:
-                print(f"{token}")
+            tokens = lexer(tokenizer(user_input))
+            for token in tokens:
+                print(f"{token.type.name:<12} {token.value}")
 
         except ValueError:
             print("Invalid input. Please enter a numerical value.")
