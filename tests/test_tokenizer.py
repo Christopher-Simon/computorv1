@@ -1,4 +1,4 @@
-from src.tokenizer import tokenizer
+from src.parsing.lexer import lexer as tokenizer
 
 
 def test_basic_polynomial() -> None:

@@ -2,7 +2,7 @@ import re
 from collections.abc import Iterator
 
 
-def tokenizer(input: str) -> list[str]:
+def lexer(input: str) -> list[str]:
     """
     Regex function to return list of identified parts of polynomial expressions
     """

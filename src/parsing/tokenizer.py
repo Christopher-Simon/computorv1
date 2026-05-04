@@ -4,18 +4,19 @@ from enum import Enum, auto
 
 
 class TokenType(Enum):
-    NUMBER = auto()     # "3", "2.5", "3i", "2.5i"
-    VARIABLE = auto()   # "x", "varA" — normalized to lowercase
+    NUMBER = auto()  # "3", "2.5", "3i", "2.5i"
+    VARIABLE = auto()  # "x", "varA" — normalized to lowercase
     FUNC_NAME = auto()  # identifier immediately followed by "("
-    OPERATOR = auto()   # "+", "-", "*", "**", "/", "^", "%"
-    EQUALS = auto()     # "="
-    QUERY = auto()      # "?"
-    LPAREN = auto()     # "("
-    RPAREN = auto()     # ")"
-    LBRACKET = auto()   # "["
-    RBRACKET = auto()   # "]"
-    COMMA = auto()      # "," — column separator in matrix
+    OPERATOR = auto()  # "+", "-", "*", "**", "/", "^", "%"
+    EQUALS = auto()  # "="
+    QUERY = auto()  # "?"
+    LPAREN = auto()  # "("
+    RPAREN = auto()  # ")"
+    LBRACKET = auto()  # "["
+    RBRACKET = auto()  # "]"
+    COMMA = auto()  # "," — column separator in matrix
     SEMICOLON = auto()  # ";" — row separator in matrix
+    END = auto()
 
 
 @dataclass
@@ -39,9 +40,9 @@ _NUMBER_PATTERN = re.compile(r"^\d+(?:\.\d+)?i?$")
 _I_PREFIX_PATTERN = re.compile(r"^i(\d+(?:\.\d+)?)$")
 
 
-def lexer(tokens: list[str]) -> list[Token]:
+def tokenizer(tokens: list[str]) -> list[Token]:
     """
-    Classify a flat list of raw string tokens (from tokenizer) into typed Token objects.
+    Classify a flat list of raw strings (from lexer) into typed Token objects.
 
     Rules:
     - Numbers (int, float, imaginary suffix 'i') → NUMBER
@@ -64,7 +65,7 @@ def lexer(tokens: list[str]) -> list[Token]:
             if m:
                 result.append(Token(TokenType.NUMBER, f"{m.group(1)}i"))
                 continue
-            if raw == "i":
+            if raw in ("i", "I"):
                 raise SyntaxError(
                     "'i' is reserved for the imaginary unit "
                     "and cannot be used as a variable"
@@ -77,4 +78,5 @@ def lexer(tokens: list[str]) -> list[Token]:
                 result.append(Token(TokenType.VARIABLE, normalized))
         else:
             raise SyntaxError(f"Unexpected token: {raw!r}")
+    result.append(Token(TokenType.END, ""))
     return result

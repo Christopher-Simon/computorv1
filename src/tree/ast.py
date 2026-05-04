@@ -1,17 +1,17 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from enum import Enum, auto
+from enum import Enum
 
 
 class Operator(Enum):
-    ADD = auto()
-    SUB = auto()
-    MUL = auto()
-    DIV = auto()
-    MOD = auto()
-    DOT = auto()  # ** matrix multiplication
-    POW = auto()  # ^ scalar power
+    ADD = "+"
+    SUB = "-"
+    MUL = "*"
+    DIV = "/"
+    MOD = "%"
+    DOT = "**"  # matrix multiplication
+    POW = "^"  # scalar power
 
 
 @dataclass
@@ -82,16 +82,6 @@ class TreeNode:
     right: TreeNode | None = field(default=None)
 
     def __post_init__(self) -> None:
-        if isinstance(self.value, Operator):
-            if (
-                self.value is Operator.SUB
-                and self.left is None
-                and self.right is not None
-            ):
-                return  # unary minus: right only
-            if self.left is None or self.right is None:
-                raise ValueError(
-                    f"Operator {self.value} requires both left and right children"
-                )
-        elif self.left is not None or self.right is not None:
-            raise ValueError("Operand nodes must have left=None and right=None")
+        if isinstance(self.value, Operand):
+            if self.left is not None or self.right is not None:
+                raise ValueError("Operand nodes must have left=None and right=None")
